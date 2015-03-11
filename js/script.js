@@ -302,7 +302,9 @@ $(function () {
     TweenMax.set('.se1_t1' ,{autoAlpha:0});
     aniSe1.set('.se1_t1' ,{autoAlpha:0 ,top: '+=15%'})
           .set('.se1_t2' ,{autoAlpha:0})
-          .from('.se1_book_1' ,1  ,{autoAlpha:0  ,marginTop:'+=30px'})
+          .from('.se1_book_1' ,1  ,{autoAlpha:0  ,marginTop:'+=30px', onStart: function(){
+            imgSizeHandler_1();
+          }})
           .from('.se1_book_2' ,.5 ,{rotation:-20 ,autoAlpha:0 ,transformOrigin:'80% 50%'})
           .to('.se1_t1' ,.4 ,{autoAlpha:1 ,top: '-=15%'})
           .from('.se1_t2' ,.4 ,{autoAlpha:0 ,left: '+=10%' ,ease:Quart.easeOut})
@@ -374,7 +376,12 @@ $(function () {
     // Section 6
     aniSe6.from('.show_book' ,.8 ,{autoAlpha:0 ,marginTop:'+=40px' ,ease:Quart.easeOut,onComplete:function(){
             keyIn($('.se6_txt .title span'));
-          }})
+            $('#section_6 .slider > div').each(function(){
+                if ( $(this).css('left') == '0px') {
+                    $('#section_6 .slider').height($(this).height());
+                }
+            });
+          }, onStart: imgSizeHandler_6})
           .from('.se6_txt .title' ,.4 ,{delay:.2 ,scale:.8 ,autoAlpha:0  ,ease:Quart.easeOut})
           .from('.se6_txtBox' ,.8 ,{marginTop:'-=30px' ,autoAlpha:0  ,ease:Back.easeOut})
           .from('.model_pagination' ,.8 ,{scale:.8 ,autoAlpha:0  ,ease:Back.easeOut})
@@ -407,10 +414,6 @@ $(function () {
           }},"-=.5");
     
     
-
-
-    
-
 
     /* 共用 function
     -----------------------------------------------------------------------*/
@@ -641,13 +644,17 @@ $(function () {
 
 
         if(p == 'next'){
-            TweenMax.to($('.show_'+cur) ,.5 ,{left:0});
+            TweenMax.to($('.show_'+cur) ,.5 ,{left:0, onStart: function(){
+                $('#section_6 .slider').height($('.show_'+cur).height());
+            }});
             TweenMax.to($('.show_'+_curPrev),.5 ,{left:'-100%'});
             TweenMax.set($('.show_'+_curNext) ,{left:'100%'});
         }
 
         if(p == 'prev'){
-            TweenMax.to($('.show_'+cur) ,.5 ,{left:0});
+            TweenMax.to($('.show_'+cur) ,.5 ,{left:0, onStart: function(){
+                $('#section_6 .slider').height($('.show_'+cur).height());
+            }});
             TweenMax.to($('.show_'+_curNext),.5 ,{left:'100%'});
             TweenMax.set($('.show_'+_curPrev) ,{left:'-100%'});
         }
@@ -828,10 +835,6 @@ $(function () {
         });
     });
 
-
-
-
-
     // windowResize
     var windowResise = function () {
         var _winWidth = $win.width();
@@ -858,7 +861,7 @@ $(function () {
         fullHeight();
 
 
-        $('.slider div ,.slider').attr({width:'' ,height: ''}); //移除原有css
+        $('.slider div ,.slider').removeAttr('width height'); //移除原有css
         var _sliderwidth = $('#section_6 .inner').width(); //抓取最新寬度
 
         $('.slider div ,.slider').css({
@@ -866,7 +869,6 @@ $(function () {
             height : _sliderwidth * 0.7
         });
 
-        imgSizeHandler();
     };
 
     windowResise();
@@ -887,16 +889,6 @@ $(function () {
 
 });
 
-var imgSizeHandler = function() {
-    var maxHeight = 610;
-    if ( $win.height() < maxHeight ) {
-        var ratio = parseInt($win.height() / maxHeight * 100) - 5;
-        $('#section_1 img').css('max-width', ratio + '%');
-    }
-};
-
-
-
 scrollFunction = function(){
     if(_scrollFlag){
         $("#se6_scroll").mCustomScrollbar();
@@ -908,14 +900,51 @@ se_full_foto = function(){
         _l2 = $(window).height()/_fullFotoHeight,
         _r = _l1 > _l2 ? _l1 : _l2;
 
-        $('.full_foto').css({
-            position :'absolute',
-            top: '50%',
-            left : '50%',
-            marginLeft : -Math.floor( _fullFotoWidth * _r)/2,
-            marginTop : -Math.floor( _fullFotoHeight * _r)/2,
-            width : Math.floor(_fullFotoWidth * _r),
-            height : Math.floor(_fullFotoHeight * _r)
-        });
+    $('.full_foto').css({
+        position :'absolute',
+        top: '50%',
+        left : '50%',
+        marginLeft : -Math.floor( _fullFotoWidth * _r)/2,
+        marginTop : -Math.floor( _fullFotoHeight * _r)/2,
+        width : Math.floor(_fullFotoWidth * _r),
+        height : Math.floor(_fullFotoHeight * _r)
+    });
 }
+
+var imgSizeHandler_1 = function() {
+    var section_1_height = $('#section_1 .inner').height();
+    var section_1_top = parseInt($('#section_1 .inner').css('top'));
+    var btn_1_height = $('#section_1 .btn_more').height();
+    var btn_1_bottom = parseInt($('#section_1 .btn_more').css('bottom'));
+    var maxHeight = $win.height() - section_1_top - btn_1_height - btn_1_bottom;
+
+    $('#section_1 img').css('max-width', '100%');
+    if ( maxHeight < section_1_height ) {
+        var ratio = parseInt(maxHeight / section_1_height * 100) - 5;
+        $('#section_1 img').css('max-width', ratio + '%');
+    }
+};
+
+var imgSizeHandler_6 = function() {
+    var section_6_top = parseInt($('#section_6 .inner').css('top'));
+    var btn_6_height = $('#section_6 .btn_more').height();
+    var btn_6_bottom = parseInt($('#section_6 .btn_more').css('bottom'));
+    var maxHeight = $win.height() - section_6_top - btn_6_height - btn_6_bottom;
+    var originalHeight = $('#section_6 .inner').width() * 0.7;
+
+    $('#section_6 .slider > div').each(function(index){
+        var txtHeight = $('.se6Txt.book_' + (index + 1)).height();
+        var selfHeight = $(this).height() + txtHeight;
+        console.log(selfHeight);
+        if ( maxHeight < selfHeight ) {
+            var newHeight = $(this).height() - (selfHeight - maxHeight);
+            $(this).height(newHeight);
+
+            var ratio = parseInt($(this).height() / originalHeight * 100);
+            $(this).find('img').css('max-width', ratio + '%');
+        }
+
+         
+    });
+};
 
