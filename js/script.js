@@ -774,7 +774,7 @@ $(function () {
     }
 
 
-    $('.btn_full').click(function(){
+    $(document).on('click', '.btn_full', function(){
         var _thisImg = $(this).find('.full_img').attr('src'),
             _thisUrl = _thisImg.replace('.jpg' ,'_full.jpg'),
             _w = $(window).width() > $(window).height() ? $(window).width() : $(window).height(),
@@ -790,8 +790,7 @@ $(function () {
             cancelBtn: false
         });
 
-
-        $('.btn_close').click(function(){
+        $(document).on('click', '.btn_close', function(){
             $.unMyBlock();            
         });
     });
