@@ -63,8 +63,11 @@ $(function () {
                 TweenMax.to('.loading_bar' ,.2 ,{delay:1 ,autoAlpha:0});
                 TweenMax.to('.loading_logo' ,.5 ,{delay:1 ,scale:.5 ,autoAlpha:0 ,ease:Back.easeOut});
             }
+
         }).each(function() {
-            if(this.complete) $(this).load();
+            if(this.complete) {
+                $(this).load();
+            } 
         });
 
     }
@@ -111,7 +114,7 @@ $(function () {
                     movePage(i);
                     _initPage = i;
                 }
-            };
+            }
             // console.log('進入init:'+_initPage);
 
             var _curPage = _initPage;
@@ -144,7 +147,7 @@ $(function () {
             width : $win.width(),
             height : $win.height()
         });
-    }
+    };
 
 
     // body MouseWheel
@@ -284,7 +287,7 @@ $(function () {
                 left : (se1_txtWidth/4)
             });
         }
-    }
+    };
 
     var aniSe1 = new TimelineMax({paused:true});
     var aniSe2 = new TimelineMax({paused:true});
@@ -862,7 +865,9 @@ $(function () {
             width : _sliderwidth,
             height : _sliderwidth * 0.7
         });
-    }
+
+        imgSizeHandler();
+    };
 
     windowResise();
    
@@ -877,14 +882,18 @@ $(function () {
         }
 
         windowResise();
-        loading();
-
-        
+        loading(); 
     });
 
-
-
 });
+
+var imgSizeHandler = function() {
+    var maxHeight = 610;
+    if ( $win.height() < maxHeight ) {
+        var ratio = parseInt($win.height() / maxHeight * 100) - 5;
+        $('#section_1 img').css('max-width', ratio + '%');
+    }
+};
 
 
 
