@@ -1,0 +1,39 @@
+/*for tooltip*/
+#tooltipPanel{
+   position:absolute;
+   text-align:left;
+   z-index:3000000;
+   padding:3px 5px 3px 5px;
+   font-size:12px;
+   font-weight:normal;
+   top:0px;
+   left:0px;
+   background-color:#434343;
+   color:#ffffff;
+}
+/*for block UI*/
+#blockContentBG{
+   padding:0px;
+   background-repeat:no-repeat;
+   background-position:center center;
+   position:absolute;
+   z-index:24000001;
+   cursor:default;
+}
+#blockContentDel{
+	background-image:url(ui/fancy_close.png);
+	_background-image:url(ui/fancy_close.gif);
+	width:30px;
+	height:30px;
+	position:absolute;
+	top:-15px;
+	right:-15px;
+	cursor:pointer;
+}
+#blockContentSection{
+   background-color:#FFFFFF;
+   border:1px solid #258389;
+   padding:0;
+   position:relative;
+   float:left;
+}
