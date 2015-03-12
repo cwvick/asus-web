@@ -306,7 +306,15 @@ $(function () {
             imgSizeHandler_1();
           }})
           .from('.se1_book_2' ,.5 ,{rotation:-20 ,autoAlpha:0 ,transformOrigin:'80% 50%'})
-          .to('.se1_t1' ,.4 ,{autoAlpha:1 ,top: '-=15%'})
+          .to('.se1_t1' ,.4 ,{autoAlpha:1 ,top: '-=15%', onStart: function(){
+            var maxWidth = $('.se1_txt_2').width();
+            while ( $('.se1_t1 span').width() + $('.se1_t2 span').width() > maxWidth ) {
+                var fontSize = parseInt($('.se1_txt_2').css('font-size'));
+                $('.se1_txt_2').css('font-size', fontSize - 1 + 'px');
+            }
+            console.log($('.se1_t1 span').width());
+            console.log($('.se1_t2 span').width());
+          }})
           .from('.se1_t2' ,.4 ,{autoAlpha:0 ,left: '+=10%' ,ease:Quart.easeOut})
           .to('.se1_t1' ,.6 ,{left: 0 , ease:Back.easeOut} ,"-=.4")
           .staggerFrom(['.se1_txt_1','.se1_chi'] ,.5 ,{autoAlpha:0 ,scale:.90 ,ease:Back.easeOut},.15 ,'-=.2')
@@ -786,7 +794,8 @@ $(function () {
             layout += '</div>';
         
         $.myBlock({
-            content: layout
+            content: layout,
+            cancelBtn: false
         });
 
         $(document).on('click', '.btn_close', function(){
