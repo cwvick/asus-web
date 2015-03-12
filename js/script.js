@@ -786,8 +786,7 @@ $(function () {
             layout += '</div>';
         
         $.myBlock({
-            content: layout,
-            cancelBtn: false
+            content: layout
         });
 
         $(document).on('click', '.btn_close', function(){
