@@ -312,8 +312,6 @@ $(function () {
                 var fontSize = parseInt($('.se1_txt_2').css('font-size'));
                 $('.se1_txt_2').css('font-size', fontSize - 1 + 'px');
             }
-            console.log($('.se1_t1 span').width());
-            console.log($('.se1_t2 span').width());
           }})
           .from('.se1_t2' ,.4 ,{autoAlpha:0 ,left: '+=10%' ,ease:Quart.easeOut})
           .to('.se1_t1' ,.6 ,{left: 0 , ease:Back.easeOut} ,"-=.4")
